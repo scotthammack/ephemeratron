@@ -12,12 +12,16 @@ api = tweepy.API(auth)
 
 class Listener(StreamListener):
 	def on_status(self, status):
-		return delete_old_tweet()
+		delete_old_tweet()
+		return True
 	
 	def on_error(self, status):
 		print status
 
 def delete_old_tweet():
+	if api.get_user(screen_name = SCREEN_NAME).statuses_count <= 69:
+		return False
+
 	for status in tweepy.Cursor(api.user_timeline, screen_name = SCREEN_NAME, count = 200, include_rts = True).items():
 		if not "Verifying myself:" in status.text and not (status.favorited and not status.retweeted):
 			oldest_tweet = status

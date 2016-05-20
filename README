@@ -1,0 +1,3 @@
+This Python script will monitor your Twitter timeline and whenever you post
+a new tweet, it will delete the oldest tweet it can find. (Probably won't
+work past 3200 tweets.) Requires tweepy.

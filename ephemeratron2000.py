@@ -14,10 +14,9 @@ api = tweepy.API(auth)
 
 class Listener(StreamListener):
 	def on_status(self, status):
-		if status.user.screen_name != SCREEN_NAME or api.get_user(screen_name = SCREEN_NAME).statuses_count <= 69:
-			return False
-		delete_old_tweet()
-		return True
+		if status.user.screen_name == SCREEN_NAME and api.get_user(screen_name = SCREEN_NAME).statuses_count > 69:
+			delete_old_tweet()
+			return True
 	
 	def on_error(self, status):
 		print status
@@ -44,4 +43,4 @@ def delete_old_tweet():
 
 u = api.get_user(screen_name = SCREEN_NAME)
 stream = tweepy.Stream(auth, Listener())
-stream.filter(follow = [str(u.id)])
+stream.userstream("with=user")
